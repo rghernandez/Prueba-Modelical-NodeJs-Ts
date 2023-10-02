@@ -1,22 +1,24 @@
 import request from 'supertest'
 import { app } from '../../index'
+import modelsData from '../../data/models.json'
+import { Model } from '../../types'
 
-const model = {
-  id: 'a84ab7a6-985f-4ebf-a74e-3c533b9e65a9',
-  name: 'Model 1',
-  description: 'Model 1 description',
-  projectId: 1
-}
+const model: Model = modelsData[0] as Model
+
 const newModel = {
   name: 'New Model',
   description: 'New Model Description',
-  projectId: 2
+  format: 'STP',
+  size: 1024,
+  created: new Date().toISOString(),
+  lastModified: new Date().toISOString(),
+  preview: 'https://parametric-architecture.com/wp-content/uploads/2022/11/womp_pukeiart.jpg',
+  finished: false
 }
 const updatedModel = {
   id: model.id,
   name: 'Updated Model',
-  description: 'Updated Model Description',
-  projectId: 2
+  description: 'Updated Model Description'
 }
 
 describe('Model API', () => {
@@ -28,7 +30,7 @@ describe('Model API', () => {
     })
 
     test('should return a model by ID', async () => {
-      const response = await request(app).get('/api/models/' + model.id)
+      const response = await request(app).get(`/api/models/${model.id}`)
       expect(response.status).toBe(200)
       expect(response.body.id).toBe(model.id)
     })

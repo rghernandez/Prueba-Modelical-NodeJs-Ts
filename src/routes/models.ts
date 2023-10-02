@@ -43,11 +43,6 @@ modelRouter.post('/', (req, res) => {
 modelRouter.patch('/:modelId', (req, res) => {
   try {
     const id = req.params.modelId
-    const { name, description, projectId } = req.body
-
-    if (name == null || description == null || projectId == null) {
-      return res.status(400).json({ msg: 'Please include name, description, and projectId' })
-    }
 
     const updatedModel = modelService.updateModel({ id, ...req.body })
 

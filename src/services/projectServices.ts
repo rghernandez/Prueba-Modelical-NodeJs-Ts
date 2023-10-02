@@ -1,7 +1,9 @@
-import { Project, NewProject, Model } from '../types'
+import { Project, NewProject, Model, NewModel } from '../types'
 import projectsData from '../data/projects.json'
-import { checkId, validateProject, validatePartialProject } from '../utils/utils'
+import { checkId } from '../utils/utilFunctions'
+import { validateProject, validatePartialProject } from '../utils/projectUtils'
 import { randomUUID } from 'node:crypto'
+import { createModel, getModelById } from './modelServices'
 
 // Import data from JSON file and cast to Project type
 const projects: Project[] = projectsData as Project[]
@@ -33,7 +35,7 @@ export const createProject = (project: NewProject): Project => {
   return newProject
 }
 
-// PUT (update) an existing project
+// Update an existing project
 export const updateProject = (project: Project): Project => {
   if (!validatePartialProject(project)) {
     throw new Error('Invalid project')
@@ -42,8 +44,11 @@ export const updateProject = (project: Project): Project => {
   if (index < 0) {
     throw new Error('Project not found')
   }
-  projects[index] = project
-  return project
+  projects[index] = {
+    ...projects[index],
+    ...project
+  }
+  return projects[index]
 }
 
 // DELETE an existing project
@@ -61,14 +66,37 @@ export const deleteProject = (id: any): void => {
 }
 
 // GET all models for a project
-export const getAllModelsForProject = (projectId: any): Model[] => {
+export const getAllModelsForProject = (projectId: any): Model[] | undefined => {
   if (!checkId(projectId)) {
-    throw new Error('Invalid ID project')
+    throw new Error('Invalid ID')
+  }
+  const models = getModelsForProject(projectId)
+  return models
+}
+
+// get models for a project
+const getModelsForProject = (projectId: any): Model[] | undefined => {
+  const project = getProjectById(projectId)
+  if (project != null) {
+    const models = project.models.map((modelId) => getModelById(modelId))
+      .filter((model): model is Model => model !== undefined)
+    return models
+  } else {
+    throw new Error('Project not found')
+  }
+}
+
+// Add a model to a project with projectId and Model
+export const addModelToProject = (projectId: any, model: NewModel): Model => {
+  if (!checkId(projectId)) {
+    throw new Error('Invalid ID')
   }
   const project = getProjectById(projectId)
   if (project != null) {
-    return project.models
+    const modelCreated = createModel(model)
+    project.models.push(modelCreated.id)
+    return modelCreated
   } else {
-    return []
+    throw new Error('Project not found')
   }
 }

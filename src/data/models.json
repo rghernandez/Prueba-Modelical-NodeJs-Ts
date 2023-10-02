@@ -2,16 +2,35 @@
     {
         "id": "a84ab7a6-985f-4ebf-a74e-3c533b9e65a9",
         "name": "Model 1",
-        "description": "Model 1 description"
+        "description": "Model 1 description",
+        "format": "STP",
+        "size": 1024,
+        "created": "2020-01-01T00:00:00.000Z",
+        "lastModified": "2022-01-01T00:00:00.000Z",
+        "preview": "https://parametric-architecture.com/wp-content/uploads/2022/11/womp_pukeiart.jpg",
+        "finished": true
+
     },
     {
         "id": "b9b90578-cf55-4ec9-9bc0-55bc318b10c1",
         "name": "Model 2",
-        "description": "Model 2 description"
+        "description": "Model 2 description",
+        "format": "OBJ",
+        "size": 1024,
+        "created": "2020-01-01T00:00:00.000Z",
+        "lastModified": "2023-01-01T00:00:00.000Z",
+        "preview": "https://parametric-architecture.com/wp-content/uploads/2022/11/womp_pukeiart.jpg",
+        "finished": true
     },
     {
         "id": "22f135e4-32b6-49a6-b593-a7a304821a2b",
         "name": "Model 3",
-        "description": "Model 3 description"
+        "description": "Model 3 description",
+        "format": "FBX",
+        "size": 1024,
+        "created": "2020-01-01T00:00:00.000Z",
+        "lastModified": "2023-09-21T00:00:00.000Z",
+        "preview": "https://parametric-architecture.com/wp-content/uploads/2022/11/womp_pukeiart.jpg",
+        "finished": false
     }
 ]

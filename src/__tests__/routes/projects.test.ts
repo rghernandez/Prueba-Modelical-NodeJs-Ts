@@ -1,36 +1,26 @@
 import request from 'supertest'
 import { app } from '../../index'
+import { Project } from '../../types'
+import projectData from '../../data/projects.json'
+import modelsData from '../../data/models.json'
 
-const project = {
-  id: '9ee0595d-f092-4460-8125-5c9726817044',
-  name: 'Project 1',
-  description: 'This is project 1',
-  status: 'active',
-  models: [
-    {
-      id: 'a84ab7a6-985f-4ebf-a74e-3c533b9e65a9',
-      name: 'Model 1',
-      description: 'Model 1 description'
-    },
-    {
-      id: 'b9b90578-cf55-4ec9-9bc0-55bc318b10c1',
-      name: 'Model 2',
-      description: 'Model 2 description'
-    }
-  ]
-}
+const project: Project = projectData[0] as Project
+
 const newProject = {
   name: 'New Project',
   description: 'New Project Description',
   status: 'active',
+  location: 'https://www.github.com',
   models: []
 }
 
 const updatedProject = {
-  id: project.id,
+  ...project,
   name: 'Updated Project',
   description: 'Updated Project Description'
 }
+
+const expectedModels = modelsData.filter((m) => project.models.includes(m.id))
 
 describe('Project API', () => {
   describe('GET /api/projects', () => {
@@ -76,7 +66,17 @@ describe('Project API', () => {
     test('should return all models from a project', async () => {
       const response = await request(app)
         .get(`/api/projects/${project.id}/models`)
-      expect(response.body).toEqual(project.models)
+      expect(response.body).toEqual(expectedModels)
+    })
+  })
+  describe('POST /api/projects/:id/models', () => {
+    test('should add a model to a project', async () => {
+      const model = modelsData[2]
+      const response = await request(app)
+        .post(`/api/projects/${project.id}/models`)
+        .send(model)
+      expect(201)
+      expect(response.body).toEqual(model)
     })
   })
   describe('PATCH /api/projects/:id', () => {

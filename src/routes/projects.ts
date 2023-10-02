@@ -37,6 +37,18 @@ projectRouter.get('/:projectId/models', (req, res) => {
   }
 })
 
+// POST /api/projects/:id/models
+projectRouter.post('/:projectId/models', (req, res) => {
+  try {
+    const projectId = req.params.projectId
+    const newModel = req.body
+    const addedModel = projectService.addModelToProject(projectId, newModel)
+    return res.status(201).json(addedModel)
+  } catch (e: any) {
+    return res.status(400).send(e.message)
+  }
+})
+
 // POST /api/projects
 projectRouter.post('/', (req, res) => {
   try {

@@ -1,16 +1,18 @@
 import { Model, NewModel } from '../types'
 import modelsData from '../data/models.json'
-import { checkId, validateModel, validatePartialModel } from '../utils/utils'
+import { checkId } from '../utils/utilFunctions'
+import { validateModel, validatePartialModel } from '../utils/modelUtils'
 import { randomUUID } from 'node:crypto'
+
 // Import data from JSON file and cast to Model type
 const models: Model[] = modelsData as Model[]
 
-// GET all models or filter by name
+// Get all models
 export const getAllModels = (): Model[] => {
   return models
 }
 
-// GET a single character by id
+// Get a single character by id
 export const getModelById = (id: any): Model | undefined => {
   if (!checkId(id)) {
     throw new Error('Invalid ID')
@@ -18,34 +20,40 @@ export const getModelById = (id: any): Model | undefined => {
   return models.find((model) => model.id === id)
 }
 
-// POST a new model
+// Create a new model
 export const createModel = (model: NewModel): Model => {
   const newModel: Model = {
     id: randomUUID(),
     ...model
   }
-  if (!validateModel(newModel)) {
-    throw new Error('Invalid model')
+  const validation = validateModel(newModel)
+  if (!(validation.success)) {
+    throw new Error(validation.error.message)
   }
 
   models.push(newModel)
   return newModel
 }
 
-// PUT (update) an existing model
+// Update an existing model
 export const updateModel = (model: Model): Model => {
-  if (!validatePartialModel(model)) {
-    throw new Error('Invalid model')
+  const validation = validatePartialModel(model)
+
+  if (!(validation.success)) {
+    throw new Error(validation.error.message)
   }
-  const index = models.findIndex((m) => m.id === model.id)
+  const index = models.findIndex((p) => p.id === model.id)
   if (index < 0) {
     throw new Error('Model not found')
   }
-  models[index] = model
-  return model
+  models[index] = {
+    ...models[index],
+    ...model
+  }
+  return models[index]
 }
 
-// DELETE an existing model
+// Delete an existing model
 export const deleteModel = (id: any): void => {
   if (checkId(id)) {
     const index = models.findIndex((m) => m.id === id)

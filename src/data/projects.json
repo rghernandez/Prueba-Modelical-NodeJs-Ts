@@ -4,30 +4,20 @@
         "name": "Project 1",
         "description": "This is project 1",
         "status": "active",
+        "location": "https://github.com/",
         "models": [
-            {
-                "id": "a84ab7a6-985f-4ebf-a74e-3c533b9e65a9",
-                "name": "Model 1",
-                "description": "Model 1 description"
-            },
-            {
-                "id": "b9b90578-cf55-4ec9-9bc0-55bc318b10c1",
-                "name": "Model 2",
-                "description": "Model 2 description"
-            }
+            "a84ab7a6-985f-4ebf-a74e-3c533b9e65a9",
+            "b9b90578-cf55-4ec9-9bc0-55bc318b10c1"
         ]
     },
     {
         "id": "6e41f9fb-5a16-46be-90b2-64abc4c0f5aa",
         "name": "Project 2",
         "description": "This is project 2",
-        "status": "active",
+        "status": "inactive",
+        "location": "https://github.com/",
         "models": [
-            {
-                "id": "22f135e4-32b6-49a6-b593-a7a304821a2b",
-                "name": "Model 3",
-                "description": "Model 3 description"
-            }
+            "22f135e4-32b6-49a6-b593-a7a304821a2b"
         ]
     }
 ]

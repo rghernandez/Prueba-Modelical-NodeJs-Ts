@@ -1,18 +1,27 @@
+
 // Type definitions for models
 export interface Model {
-  id: uuid
+  id: string
   name: string
   description: string
+  format: Format
+  size: number
+  created: string
+  lastModified: string
+  preview: string
+  finished: boolean
 }
+
 export type NewModel = Omit<Model, 'id'>
 
 // Type definitions for projects
 export interface Project {
-  id: uuid
+  id: string
   name: string
   description: string
-  status: string
-  models: Model[]
+  status: Status
+  location: string
+  models: uuid[]
 }
 
 export type NewProject = Omit<Project, 'id'>
